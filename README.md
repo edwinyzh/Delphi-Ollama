@@ -210,6 +210,10 @@ end.
 
 ### Media
 
+
+https://github.com/tinyBigGAMES/Delphi-Ollama/assets/69952438/553b212f-cda8-403c-9d73-7d867d63aacc
+
+
 ### Support
 Our development motto: 
 - We will not release products that are buggy, incomplete, adding new features over not fixing underlying issues.
