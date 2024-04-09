@@ -82,7 +82,7 @@ begin
 end.
 ```
 
-An example using using a background thread and speech:
+An example using a background thread and speech:
 ```Delphi  
 uses
   System.SysUtils,
