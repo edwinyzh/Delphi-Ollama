@@ -1,4 +1,4 @@
-```  
+{* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
                            :%@@@+              =%@@%-
                           -@@*=@@#            +@@++@@+
                           %@%  =@@=          :@@+  *@@.
@@ -24,42 +24,75 @@
                       =@@:                             @@#
                       -@@-                            .@@*
      ___        _        _     _        ___   _  _
-    |   \  ___ | | _ __ | |_  (_) ___  / _ \ | || | __ _  _ __   __ _â„¢
+    |   \  ___ | | _ __ | |_  (_) ___  / _ \ | || | __ _  _ __   __ _™
     | |) |/ -_)| || '_ \| ' \ | ||___|| (_) || || |/ _` || '  \ / _` |
     |___/ \___||_|| .__/|_||_||_|      \___/ |_||_|\__,_||_|_|_|\__,_|
                   |_|       Ollama API in Delphi
-```
 
-[![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
+Copyright © 2024-present tinyBigGAMES™ LLC
+All Rights Reserved.
 
-# Delphi-Ollama
-A simple and easy to use library for interacting with the Ollama API in Delphi.
+Website: https://tinybiggames.com
+Email  : support@tinybiggames.com
+License: BSD 3-Clause License
 
-First, install and setup <a href="https://github.com/ollama/ollama" target="_blank">Ollama</a>.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-Simple example:
-```Delphi  
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *}
+
+unit UTestbed;
+
+interface
+
 uses
   System.SysUtils,
+  System.IOUtils,
+  System.Classes,
   Ollama.Utils,
   Ollama;
-  
+
+procedure RunTests();
+
+implementation
+
+procedure Test01();
 var
   LOllama: TOllama;
   LUsage: TOllama.Usage;
-  
 begin
   // create Ollama object
   LOllama := TOllama.Create();
   try
-    // add a model to use
+    // set model to use
     LOllama.AddModel('dolphin-mistral', 'text', 1024*2);
 
     // generate response
     if LOllama.Generate('text', 'hello') then
       begin
-        // print response
-        WriteLn(LOllama.GetResponse());
+        // teletype response
+        Console.Teletype(LOllama.GetResponse());
 
         // get usage
         LOllama.GetUsage(LUsage);
@@ -79,22 +112,14 @@ begin
     // free Ollama object
     LOllama.Free();
   end;
-end.
-```
+end;
 
-An example using using a background thread and speech:
-```Delphi  
-uses
-  System.SysUtils,
-  Ollama.Utils,
-  Ollama;
-  
+procedure Test02();
 const
   CPrompt =
   '''
   who are you?
   ''';
-  
 var
   LOllama: TOllama;
   LUsage: TOllama.Usage;
@@ -103,31 +128,31 @@ var
   LStartTime: TDateTime;
   LDuration: Double;
 
-procedure Animate();
-const
-  CAnimation = '|/-\';
-  {$J+}
-  LFrame: Integer = 1;
-  {$J-}
-begin
-  if LFrame > Length(CAnimation) then
-    LFrame := 1
-  else
-  if LFrame < 1 then
-    LFrame := Length(CAnimation);
-  if ASync.Busy('ollama') then
+  procedure Animate();
+  const
+    CAnimation = '|/-\';
+    {$J+}
+    LFrame: Integer = 1;
+    {$J-}
   begin
-    LDuration := Utils.TimeDifference(Now, LStartTime);
-    If LDuration < 60 then
-      Console.Print(Console.CR+'%s %3.1fs', [CAnimation[LFrame], LDuration],
-        Console.MAGENTA)
+    if LFrame > Length(CAnimation) then
+      LFrame := 1
     else
-      Console.Print(Console.CR+'%s %3.1fm', [CAnimation[LFrame], LDuration],
-        Console.MAGENTA);
+    if LFrame < 1 then
+      LFrame := Length(CAnimation);
+    if ASync.Busy('ollama') then
+    begin
+      LDuration := Utils.TimeDifference(Now, LStartTime);
+      If LDuration < 60 then
+        Console.Print(Console.CR+'%s %3.1fs', [CAnimation[LFrame], LDuration],
+          Console.MAGENTA)
+      else
+        Console.Print(Console.CR+'%s %3.1fm', [CAnimation[LFrame], LDuration],
+          Console.MAGENTA);
+    end;
+    if LTimer.Check then
+      Inc(LFrame);
   end;
-  if LTimer.Check then
-    Inc(LFrame);
-end;
 
 begin
   // init timer & speech
@@ -205,33 +230,13 @@ begin
     // free ollama object
     LOllama.Free();
   end;
+end;
+
+procedure RunTests();
+begin
+  //Test01();
+  Test02();
+  Console.Pause();
+end;
+
 end.
-```
-
-### Media
-
-### Support
-Our development motto: 
-- We will not release products that are buggy, incomplete, adding new features over not fixing underlying issues.
-- We will strive to fix issues found with our products in a timely manner.
-- We will maintain an attitude of quality over quantity for our products.
-- We will establish a great rapport with users/customers, with communication, transparency and respect, always encouragingng feedback to help shape the direction of our products.
-- We will be decent, fair, remain humble and committed to the craft.
-
-### Links
-- <a href="https://github.com/tinyBigGAMES/Delphi-Ollama/issues" target="_blank">Issues</a>
-- <a href="https://github.com/tinyBigGAMES/Delphi-Ollama/discussions" target="_blank">Discussions</a>
-- <a href="https://discord.gg/tPWjMwK" target="_blank">Discord</a>
-- <a href="https://youtube.com/tinyBigGAMES" target="_blank">YouTube</a>
-- <a href="https://twitter.com/tinyBigGAMES" target="_blank">X (Twitter)</a>
-- <a href="https://ollama.com/" target="_blank">Ollama</a>
-- <a href="https://learndelphi.org/" target="_blank">learndelphi.org</a>
-- <a href="https://tinybiggames.com/" target="_blank">tinyBigGAMES</a>
-
-<p align="center">
-  <img src="media/techpartner-white.png" alt="Embarcadero Technical Partner Logo" width="200"/>
-  <br>
-  Proud to be an <strong>Embarcadero Technical Partner</strong>.
-</p>
-<sub>As an Embarcadero Technical Partner, I'm committed to providing high-quality Delphi components and tools that enhance developer productivity and harness the power of Embarcadero's developer tools.</sub>
-
