@@ -33,11 +33,17 @@
 [![Chat on Discord](https://img.shields.io/discord/754884471324672040.svg?logo=discord)](https://discord.gg/tPWjMwK) [![Twitter Follow](https://img.shields.io/twitter/follow/tinyBigGAMES?style=social)](https://twitter.com/tinyBigGAMES)
 
 # Delphi-Ollama
-A simple and easy to use library for interacting with the Ollama API in Delphi.
+A simple and easy to use library for interacting with the Ollama API in <a href="https://www.embarcadero.com/products/delphi" target="_blank">Delphi</a>.
 
-First, install and setup <a href="https://github.com/ollama/ollama" target="_blank">Ollama</a>.
+### Installation
+- Download and install <a href="https://github.com/ollama/ollama" target="_blank">Ollama</a>.
+- From the command line run `ollama pull dolphin-mistral:latest` to download your model to local HD. Once a model is local, if it's name is specified in the API call, it will be loaded into memory (if not already loaded) ready for use. You can use any <a href="https://ollama.com/library" target="_blank">models</a> supported by Ollama.
+- If you have a supported <a href="https://github.com/ollama/ollama/blob/main/docs/gpu.md" target="_blank">GPU</a>, it will be accelerated for faster inference, otherwise if will use the CPU. You will not be able to use a model larger than your available resources, so take note of the amount of memory that it requires. 
+- See the examples in `installdir\examples` folder on how to use **Delphi-Ollama** in Delphi.
+- This project was built using Delphi 12.1 (latest), Windows 11 (latest), Intel Core i5-12400F 2500 Mhz 6 Cores, 12 logical, 36GB RAM, NVIDIA RTX 3060 GPU 12GB RAM.
 
-Simple example:
+### Examples  
+A simple example:
 ```Delphi  
 uses
   System.SysUtils,
